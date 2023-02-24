@@ -1,0 +1,119 @@
+body {
+    height: 100vh;
+    font-family: sans-serif;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: goldenrod;
+    color: white;
+}
+
+i {
+    font-size: 28px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+main {
+    padding-top: 100px;
+    width: 100%;
+    /* max-width: 900px; */
+    display: flex;  
+    justify-content: center;
+    /* align-items: center; */
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+form {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+label {
+    font-size: 24px;
+    margin-right: 6px;
+}
+
+input {
+    padding: 4px 0;
+    padding-left: 4px;
+}
+
+button {
+    font-size: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+li {
+    flex-basis: 100%;
+    margin-bottom: 40px;
+    /* width: 200px; */
+    /* height: 200px; */
+    background-color: white;
+    /* border: 1px solid; */
+    box-shadow: 5px 10px;
+    
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+    transition: transform .2s;
+    margin-right: 40px;
+}
+
+/* li:nth-of-type(odd) {
+    margin-right: 40px;
+    
+} */
+
+li:hover {
+    transform: scale(1.025);
+}
+
+li > div:last-child {
+    height: 50px;
+    width: 100px;
+    background-color: goldenrod;
+    border-bottom-right-radius: 12px;
+    align-self: flex-end;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+@media (min-width: 768px) {
+    li {
+     flex-basis: 40%;
+    }
+
+   li:nth-of-type(even) {
+    margin-right: 0px;
+    
+}
+}
