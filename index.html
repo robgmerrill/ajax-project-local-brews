@@ -15,12 +15,12 @@
     <nav>
       <!-- beer icon is home view nav -->
       <div>
-        <i class="fa-solid fa-beer-mug-empty"></i>
+        <a href="#" id="home-link"><i class="fa-solid fa-beer-mug-empty"></i></a>
       </div>
       <h1>Local Brews</h1>
       <!-- map icon takes you to visited list -->
       <div>
-        <i class="fa-solid fa-map-location-dot"></i>
+        <a href="#" id="visited-link"><i class="fa-solid fa-map-location-dot"></i></a>
       </div>
     </nav>
 
@@ -37,7 +37,10 @@
         <div id="breweries-container"></div>
       </div>
     </div>
-    <div data-view="visited" class="hidden">Visited</div>
+    <div data-view="visited" class="hidden">
+      <h2>Visited</h2>
+      <div id="visited-breweries"></div>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
