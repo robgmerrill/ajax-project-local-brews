@@ -99,7 +99,7 @@ li {
     
 } */
 
-li:hover {
+#breweries-container li:hover {
     transform: scale(1.025);
 }
 
