@@ -69,6 +69,7 @@ breweriesContainer.addEventListener('click', function(e) {
                 //     }
                 // }
                 console.log("This should happen unless already added")
+                data[i].rating = 0;
                 dataObject.visited.push(data[i])
                 visitedBreweriesGenerator();
             }
@@ -103,10 +104,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function visitedBreweriesGenerator() {
     var html = '<ul>';
+
     for (var i = 0; i < dataObject.visited.length; i++) {
         var data = dataObject.visited;
-        html += '<li><div><h2>' + data[i].name + '</h2><p>' + data[i].street + '<br>' + data[i].city + ', ' + data[i].state + ' ' + data[i].postal_code + '</p></div><div><i id="star1" class="fa-regular fa-star"></i><i id="star2" class="fa-regular fa-star"></i><i id="star3" class="fa-regular fa-star"></i><i id="star4" class="fa-regular fa-star"></i><i id="star5" class="fa-regular fa-star"></i></div><div class="visited"><i class="fa-sharp fa-solid fa-xmark"></i></i></div></li>';
+
+        var ratingStars;
+
+        if (data[i].rating === 0) {
+            ratingStars = '<i id="1" class="fa-regular fa-star"></i><i id="2" class="fa-regular fa-star"></i><i id="3" class="fa-regular fa-star"></i><i id="4" class="fa-regular fa-star"></i><i id="5" class="fa-regular fa-star"></i>'
+        } else if (data[i].rating === 1) {
+            ratingStars = '<i id="1" class="fa-solid fa-star"></i><i id="2" class="fa-regular fa-star"></i><i id="3" class="fa-regular fa-star"></i><i id="4" class="fa-regular fa-star"></i><i id="5" class="fa-regular fa-star"></i>'
+        } else if (data[i].rating === 2) {
+            ratingStars = '<i id="1" class="fa-solid fa-star"></i><i id="2" class="fa-solid fa-star"></i><i id="3" class="fa-regular fa-star"></i><i id="4" class="fa-regular fa-star"></i><i id="5" class="fa-regular fa-star"></i>'
+        } else if (data[i].rating === 3) {
+            ratingStars = '<i id="1" class="fa-solid fa-star"></i><i id="2" class="fa-solid fa-star"></i><i id="3" class="fa-solid fa-star"></i><i id="4" class="fa-regular fa-star"></i><i id="5" class="fa-regular fa-star"></i>'
+        } else if (data[i].rating === 4) {
+            ratingStars = '<i id="1" class="fa-solid fa-star"></i><i id="2" class="fa-solid fa-star"></i><i id="3" class="fa-solid fa-star"></i><i id="4" class="fa-solid fa-star"></i><i id="5" class="fa-regular fa-star"></i>'
+        } else if (data[i].rating === 5) {
+            ratingStars = '<i id="1" class="fa-solid fa-star"></i><i id="2" class="fa-solid fa-star"></i><i id="3" class="fa-solid fa-star"></i><i id="4" class="fa-solid fa-star"></i><i id="5" class="fa-solid fa-star"></i>'
+        }
+
+
+
+        html += '<li><div><h2>' + data[i].name + '</h2><p>' + data[i].street + '<br>' + data[i].city + ', ' + data[i].state + ' ' + data[i].postal_code + '</p></div><div>' + ratingStars + '</div><div class="visited"><i class="fa-sharp fa-solid fa-xmark"></i></i></div></li>';
     }
     html += '</ul>';
     visitedBreweries.innerHTML = html;
 }
+
+visitedBreweries.addEventListener('click', function(e) {
+        var starNumber = parseInt(e.target.getAttribute('id'));
+        console.log(starNumber);
+
+        // update this brewerys rating
+        var li = e.target.closest('li')
+        var name = li.querySelector('h2').textContent;
+        console.log(name);
+        
+        for (var i = 0; i < dataObject.visited.length; i++) {
+            if (name === dataObject.visited[i].name) {
+                console.log('match')
+                console.log(dataObject.visited[i].rating)
+                dataObject.visited[i].rating = starNumber;
+                console.log(dataObject.visited[i].rating)
+            }
+        }
+        visitedBreweriesGenerator();
+    }
+)

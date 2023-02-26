@@ -16,3 +16,5 @@ window.addEventListener('beforeunload', function (event) {
     const breweriesJSON = JSON.stringify(dataObject.visited);
     localStorage.setItem('breweries-local-storage', breweriesJSON);
   });
+
+  
