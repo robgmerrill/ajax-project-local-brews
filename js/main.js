@@ -133,9 +133,17 @@ function visitedBreweriesGenerator() {
 }
 
 visitedBreweries.addEventListener('click', function(e) {
+
+    if (e.target.closest('div').getAttribute('class') === 'visited') {
+        console.log('hi')
+        return;
+    }
+
+    if (e.target.tagName === "I") {
+        console.log('here')
         var starNumber = parseInt(e.target.getAttribute('id'));
         console.log(starNumber);
-
+    
         // update this brewerys rating
         var li = e.target.closest('li')
         var name = li.querySelector('h2').textContent;
@@ -151,4 +159,29 @@ visitedBreweries.addEventListener('click', function(e) {
         }
         visitedBreweriesGenerator();
     }
+}
 )
+
+visitedBreweries.addEventListener('click', function(e) {
+    if (e.target.closest('div').getAttribute('class') !== 'visited') {
+        console.log('hi')
+        return;
+    }
+
+    var li = e.target.closest('li')
+    var name = li.querySelector('h2').textContent;
+    console.log(name);
+
+
+    // loop through data.entries and delete matching name
+    for (var i = 0; i < dataObject.visited.length; i++) {
+        if (name === dataObject.visited[i].name) {
+            console.log("found match")
+            dataObject.visited.splice(i, 1);
+            // dataObject.visited
+        }
+    }
+    visitedBreweriesGenerator();
+}
+)
+
