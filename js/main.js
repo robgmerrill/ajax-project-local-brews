@@ -139,7 +139,6 @@ visitedBreweries.addEventListener('click', function(e) {
 
     var li = e.target.closest('li')
     var name = li.querySelector('h2').textContent;
-    console.log(name);
 
 
     // loop through data.entries and delete matching name
