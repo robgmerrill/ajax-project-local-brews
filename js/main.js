@@ -1,9 +1,6 @@
-console.log(dataObject.visited)
 const homeView = document.querySelector('[data-view="home"]')
-console.log(homeView)
 
 const visitedView = document.querySelector('[data-view="visited"]')
-console.log(visitedView)
 
 const searchButton = document.querySelector('#search-button');
 const zipInput = document.querySelector('input')
@@ -15,14 +12,10 @@ const visitedLink = document.querySelector('#visited-link')
 
 const breweriesContainer = document.querySelector('#breweries-container')
 const visitedBreweries = document.querySelector('#visited-breweries')
-console.log(visitedBreweries)
 
 searchButton.addEventListener('click', function(e) {
     e.preventDefault();
-    console.log('this button was clicked')
     const zip = parseInt(zipInput.value);
-    console.log(zip)
-    console.log(typeof zipCode)
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://api.openbrewerydb.org/breweries?by_postal=' + zip);
     xhr.responseType = 'json';
@@ -30,7 +23,6 @@ searchButton.addEventListener('click', function(e) {
         var breweries = document.getElementById('breweries');
         if (xhr.status === 200) {
         data = xhr.response;
-        console.log(data)
         if (data.length > 0) {
 
         var html = '<ul>';
@@ -48,7 +40,6 @@ searchButton.addEventListener('click', function(e) {
 })
 
 breweriesContainer.addEventListener('click', function(e) {
-    console.dir(e.target)
     if (e.target.tagName === "I") {
         var li = e.target.closest('li')
         var name = li.querySelector('h2').textContent;
@@ -56,19 +47,6 @@ breweriesContainer.addEventListener('click', function(e) {
         // find object to push into data
         for (var i = 0; i < data.length; i++) {
             if (name === data[i].name) {
-                console.log(dataObject.visited)
-                // TODO: don't allow multiple entries
-                // before pushing object into dataObject.visited
-                // check if it is alreay in dataObject.visited
-                // for (var i = 0; i < dataObject.visited.length; i++) {
-                //     console.log(dataObject.visited[i])
-                //     if (dataObject.visited[i].name === name ) {
-                //         console.log('match')
-                //         return;
-                       
-                //     }
-                // }
-                console.log("This should happen unless already added")
                 data[i].rating = 0;
                 dataObject.visited.push(data[i])
                 visitedBreweriesGenerator();
@@ -98,7 +76,6 @@ homeLink.addEventListener('click', function() {
 })
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('page loaded');
     visitedBreweriesGenerator();
 })
 
@@ -135,26 +112,19 @@ function visitedBreweriesGenerator() {
 visitedBreweries.addEventListener('click', function(e) {
 
     if (e.target.closest('div').getAttribute('class') === 'visited') {
-        console.log('hi')
         return;
     }
 
     if (e.target.tagName === "I") {
-        console.log('here')
         var starNumber = parseInt(e.target.getAttribute('id'));
-        console.log(starNumber);
     
         // update this brewerys rating
         var li = e.target.closest('li')
         var name = li.querySelector('h2').textContent;
-        console.log(name);
         
         for (var i = 0; i < dataObject.visited.length; i++) {
             if (name === dataObject.visited[i].name) {
-                console.log('match')
-                console.log(dataObject.visited[i].rating)
                 dataObject.visited[i].rating = starNumber;
-                console.log(dataObject.visited[i].rating)
             }
         }
         visitedBreweriesGenerator();
@@ -164,21 +134,16 @@ visitedBreweries.addEventListener('click', function(e) {
 
 visitedBreweries.addEventListener('click', function(e) {
     if (e.target.closest('div').getAttribute('class') !== 'visited') {
-        console.log('hi')
         return;
     }
 
     var li = e.target.closest('li')
     var name = li.querySelector('h2').textContent;
-    console.log(name);
-
 
     // loop through data.entries and delete matching name
     for (var i = 0; i < dataObject.visited.length; i++) {
         if (name === dataObject.visited[i].name) {
-            console.log("found match")
             dataObject.visited.splice(i, 1);
-            // dataObject.visited
         }
     }
     visitedBreweriesGenerator();
