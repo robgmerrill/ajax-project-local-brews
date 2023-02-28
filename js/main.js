@@ -1,4 +1,3 @@
-console.log(dataObject.visited)
 
 const searchButton = document.querySelector('#search-button');
 const zipInput = document.querySelector('input')
@@ -9,10 +8,7 @@ const breweriesContainer = document.querySelector('#breweries-container')
 
 searchButton.addEventListener('click', function(e) {
     e.preventDefault();
-    console.log('this button was clicked')
     const zip = parseInt(zipInput.value);
-    console.log(zip)
-    console.log(typeof zipCode)
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://api.openbrewerydb.org/breweries?by_postal=' + zip);
     xhr.responseType = 'json';
@@ -20,7 +16,6 @@ searchButton.addEventListener('click', function(e) {
         var breweries = document.getElementById('breweries');
         if (xhr.status === 200) {
         data = xhr.response;
-        console.log(data)
         if (data.length > 0) {
 
         var html = '<ul>';
@@ -38,7 +33,6 @@ searchButton.addEventListener('click', function(e) {
 })
 
 breweriesContainer.addEventListener('click', function(e) {
-    console.dir(e.target)
     if (e.target.tagName === "I") {
         var li = e.target.closest('li')
         var name = li.querySelector('h2').textContent;
@@ -46,14 +40,7 @@ breweriesContainer.addEventListener('click', function(e) {
         // find object to push into data
         for (var i = 0; i < data.length; i++) {
             if (name === data[i].name) {
-
-                for (var i = 0; i < dataObject.visited.length; i++) {
-                    if (dataObject.visited[i].name === name ) {
-                        console.log('match')
-                        return;
-                       
-                    }
-                }
+                
                 dataObject.visited.push(data[i])
                
                
