@@ -2,8 +2,8 @@
 var dataObject = {
     visited: [],
     view: '',
-    nextEntryId: 1,
-    editing: null
+    // nextEntryId: 1,
+    // editing: null
 }
 
 const previousBreweriesJSON = localStorage.getItem('breweries-local-storage')
