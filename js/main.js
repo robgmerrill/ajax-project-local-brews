@@ -43,7 +43,7 @@ breweriesContainer.addEventListener('click', function(e) {
     if (e.target.tagName === "I") {
         var li = e.target.closest('li')
         var name = li.querySelector('h2').textContent;
-        
+
         // find object to push into data
         for (var i = 0; i < data.length; i++) {
             if (name === data[i].name) {
@@ -79,11 +79,45 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function visitedBreweriesGenerator() {
-    var html = '<ul>';
-    for (var i = 0; i < dataObject.visited.length; i++) {
-        var data = dataObject.visited;
-        html += '<li><div><h2>' + data[i].name + '</h2><p>' + data[i].street + '<br>' + data[i].city + ', ' + data[i].state + ' ' + data[i].postal_code + '</p></div><div><i id="star1" class="fa-regular fa-star"></i><i id="star2" class="fa-regular fa-star"></i><i id="star3" class="fa-regular fa-star"></i><i id="star4" class="fa-regular fa-star"></i><i id="star5" class="fa-regular fa-star"></i></div><div class="visited"><i class="fa-sharp fa-solid fa-xmark"></i></i></div></li>';
+    var ul = document.createElement('ul');
+    var data = dataObject.visited; // Move this outside the loop to avoid repeated lookups
+
+    for (var i = 0; i < data.length; i++) {
+        var li = document.createElement('li');
+
+        // Brewery info div
+        var infoDiv = document.createElement('div');
+        var h2 = document.createElement('h2');
+        h2.textContent = data[i].name;
+        var p = document.createElement('p');
+        p.innerHTML = data[i].street + '<br>' + data[i].city + ', ' + data[i].state + ' ' + data[i].postal_code; // Using innerHTML for line breaks, acceptable use case
+        infoDiv.appendChild(h2);
+        infoDiv.appendChild(p);
+
+        // Stars div
+        var starsDiv = document.createElement('div');
+        for (var j = 1; j <= 5; j++) {
+            var star = document.createElement('i');
+            star.id = 'star' + j;
+            star.className = 'fa-regular fa-star';
+            starsDiv.appendChild(star);
+        }
+
+        // Visited div
+        var visitedDiv = document.createElement('div');
+        visitedDiv.className = 'visited';
+        var xMark = document.createElement('i');
+        xMark.className = 'fa-sharp fa-solid fa-xmark';
+        visitedDiv.appendChild(xMark);
+
+        // Append everything
+        li.appendChild(infoDiv);
+        li.appendChild(starsDiv);
+        li.appendChild(visitedDiv);
+        ul.appendChild(li);
     }
-    html += '</ul>';
-    visitedBreweries.innerHTML = html;
+
+    var visitedBreweries = document.getElementById('visited-breweries');
+    visitedBreweries.innerHTML = ''; // Clear existing content
+    visitedBreweries.appendChild(ul);
 }
