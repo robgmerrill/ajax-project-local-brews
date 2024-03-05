@@ -13,31 +13,63 @@ const visitedLink = document.querySelector('#visited-link')
 const breweriesContainer = document.querySelector('#breweries-container')
 const visitedBreweries = document.querySelector('#visited-breweries')
 
-searchButton.addEventListener('click', function(e) {
+searchButton.addEventListener('click', async function(e) {
     e.preventDefault();
-    const zip = parseInt(zipInput.value);
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://api.openbrewerydb.org/breweries?by_postal=' + zip);
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', function () {
-        var breweries = document.getElementById('breweries');
-        if (xhr.status === 200) {
-        data = xhr.response;
-        if (data.length > 0) {
+    const zip = zipInput.value.trim(); // Trim any whitespace
+    if (!zip) {
+        console.log('Please enter a zip code.');
+        return; // Early return if no zip code is entered
+    }
 
-        var html = '<ul>';
-        for (var i = 0; i < data.length; i++) {
-            html += '<li><div><h2>' + data[i].name + '</h2><p>' + data[i].street + '<br>' + data[i].city + ', ' + data[i].state + ' ' + data[i].postal_code + '</p></div><div class="visited"><i class="fa-solid fa-map"></i></div></li>';
+    try {
+        const response = await fetch(`https://api.openbrewerydb.org/breweries?by_postal=${zip}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        html += '</ul>';
-        breweriesContainer.innerHTML = html;
+        const data = await response.json();
+
+        if (data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                breweriesContainer.append(renderBrewery(data[i]))
+            }
         } else {
             breweriesContainer.innerHTML = '<p>Sorry, no breweries found.</p>';
-        }}
-    });
-    xhr.send();
-    zipInput.value = '';
-})
+        }
+    } catch (error) {
+        console.error('Error fetching breweries:', error);
+        breweriesContainer.innerHTML = '<p>Error loading breweries. Please try again later.</p>';
+    }
+
+    zipInput.value = ''; // Clear the input field
+});
+
+function renderBrewery(brewery) {
+    // Create the list item
+    const li = document.createElement('li');
+
+    // Create and fill the info div
+    const infoDiv = document.createElement('div');
+    const h2 = document.createElement('h2');
+    h2.textContent = brewery.name;
+    const p = document.createElement('p');
+    p.innerHTML = `${brewery.street}<br>${brewery.city}, ${brewery.state} ${brewery.postal_code}`; // innerHTML is used here for simplicity with line breaks
+
+    infoDiv.appendChild(h2);
+    infoDiv.appendChild(p);
+
+    // Create and fill the visited div
+    const visitedDiv = document.createElement('div');
+    visitedDiv.className = 'visited';
+    const mapIcon = document.createElement('i');
+    mapIcon.className = 'fa-solid fa-map';
+    visitedDiv.appendChild(mapIcon);
+
+    // Append the divs to the list item
+    li.appendChild(infoDiv);
+    li.appendChild(visitedDiv);
+
+    return li;
+}
 
 breweriesContainer.addEventListener('click', function(e) {
     if (e.target.tagName === "I") {
