@@ -2,9 +2,9 @@ const homeView = document.querySelector('[data-view="home"]')
 
 const visitedView = document.querySelector('[data-view="visited"]')
 
-const searchButton = document.querySelector('#search-button');
+const searchButtonForm = document.querySelector('form');
 const zipInput = document.querySelector('input')
-var data;
+let data;
 
 const homeLink = document.querySelector('#home-link')
 const visitedLink = document.querySelector('#visited-link')
@@ -13,7 +13,7 @@ const visitedLink = document.querySelector('#visited-link')
 const breweriesContainer = document.querySelector('#breweries-container')
 const visitedBreweries = document.querySelector('#visited-breweries')
 
-searchButton.addEventListener('click', async function(e) {
+searchButtonForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const zip = zipInput.value.trim(); // Trim any whitespace
     if (!zip) {
@@ -26,7 +26,7 @@ searchButton.addEventListener('click', async function(e) {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const data = await response.json();
+        data = await response.json();
 
         if (data.length > 0) {
             for (let i = 0; i < data.length; i++) {
@@ -72,14 +72,18 @@ function renderBrewery(brewery) {
 }
 
 breweriesContainer.addEventListener('click', function(e) {
+    // listen for click on I tag for the visited map
     if (e.target.tagName === "I") {
+        // find the closest li of the click event
         var li = e.target.closest('li')
-        var name = li.querySelector('h2').textContent;
+        // get the value for the h2
+        var name = li.querySelector('h2').textContent; // "Bay Bridge Co"
 
         // find object to push into data
         for (var i = 0; i < data.length; i++) {
-            if (name === data[i].name) {
-                dataObject.visited.push(data[i])
+            if ("Bay Bridge Co" === data[0].name) {
+                // todo: don't add brewery if it already exists in favorited
+                dataObject.visited.push(data[0])
                 visitedBreweriesGenerator();
             }
         }
